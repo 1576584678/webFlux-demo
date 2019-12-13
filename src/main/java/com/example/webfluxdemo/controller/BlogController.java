@@ -7,10 +7,7 @@ import com.example.webfluxdemo.handler.BlogHandler;
 import com.example.webfluxdemo.model.Blog;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 /**
@@ -34,5 +31,11 @@ public class BlogController {
         PageInfo<Blog> pageInfo=blogHandler.findTop(pageRequest);
         PageResult pageResult = PageUtils.getPageResult(pageRequest,pageInfo);
         return Mono.justOrEmpty(pageResult);
+    }
+
+    @GetMapping(value = "{id}")
+    public Mono getContent(@PathVariable int id){
+        String content=blogHandler.viewContentById(id);
+        return Mono.justOrEmpty(content);
     }
 }
