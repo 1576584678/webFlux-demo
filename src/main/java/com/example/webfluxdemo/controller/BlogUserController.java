@@ -1,6 +1,7 @@
 package com.example.webfluxdemo.controller;
 
 import com.example.webfluxdemo.handler.BlogUserHandler;
+import com.example.webfluxdemo.model.BlogUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -25,7 +26,8 @@ public class BlogUserController {
 
 
     @PostMapping(value = "/get")
-    public Mono findBlogUserById(@RequestBody Map params) {
-        return blogUserHandler.findByUsernameAndPassword(params);
+    public Mono findBlogUser(@RequestBody Map params) {
+        BlogUser blogUser =blogUserHandler.findByUsernameAndPassword(params);
+        return Mono.justOrEmpty(blogUser);
     }
 }

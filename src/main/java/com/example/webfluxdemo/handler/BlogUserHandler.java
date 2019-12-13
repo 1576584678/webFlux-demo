@@ -21,18 +21,19 @@ public class BlogUserHandler extends SqlSessionHandler{
         super(factory);
     }
 
-    public Mono<BlogUser> findByUsernameAndPassword(Map<String, String> params) {
+    public BlogUser findByUsernameAndPassword(Map<String, String> params) {
         String sqlId=String.format(pageNameSpace, "BlogUser", "findByUsernameAndPassword");
-        SqlSession sqlSession;
+        SqlSession sqlSession = null;
         BlogUser blogUser=null;
         try {
             sqlSession = getSqlSession();
             blogUser=sqlSession.selectOne(sqlId,params);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
-
-        return Mono.justOrEmpty(blogUser);
+        return blogUser;
     }
 
 

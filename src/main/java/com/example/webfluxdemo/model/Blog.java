@@ -1,6 +1,5 @@
 package com.example.webfluxdemo.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,6 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 public class Blog {
     private Long id;
 
@@ -44,5 +42,42 @@ public class Blog {
     private Long userId;
 
     private String content;
+
+    public Blog(Long id, Boolean appreciation, Boolean commentabled, Date createTime, String description, String firstPicture, String flag, Boolean published, Boolean recommend, Boolean shareStatement, String title, Date updateTime, Integer views, Long typeId, Long userId) {
+        this.id = id;
+        this.appreciation = appreciation;
+        this.commentabled = commentabled;
+        this.createTime = createTime;
+        this.description = description;
+        this.firstPicture = firstPicture;
+        this.flag = flag;
+        this.published = published;
+        this.recommend = recommend;
+        this.shareStatement = shareStatement;
+        this.title = title;
+        this.updateTime = updateTime;
+        this.views = views;
+        this.typeId = typeId;
+        this.userId = userId;
+    }
+
+    public Blog(Long id, Boolean appreciation, Boolean commentabled, Date createTime, String description, String firstPicture, String flag, Boolean published, Boolean recommend, Boolean shareStatement, String title, Date updateTime, Integer views, Long typeId, Long userId, String content) {
+        this.id = id;
+        this.appreciation = appreciation;
+        this.commentabled = commentabled;
+        this.createTime = createTime;
+        this.description = description;
+        this.firstPicture = firstPicture;
+        this.flag = flag;
+        this.published = published;
+        this.recommend = recommend;
+        this.shareStatement = shareStatement;
+        this.title = title;
+        this.updateTime = updateTime;
+        this.views = views;
+        this.typeId = typeId;
+        this.userId = userId;
+        this.content = content;
+    }
 
 }
