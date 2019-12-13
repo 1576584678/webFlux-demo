@@ -20,12 +20,18 @@ import reactor.core.publisher.Mono;
 @RequestMapping(value = "/blogUser")
 public class BlogUserController {
     private static Logger logger = LoggerFactory.getLogger(BlogUserController.class);
-    @Autowired
+    private final
     BlogUserHandler blogUserHandler;
 
-    @GetMapping(value = "/{id}")
-    public Mono<BlogUser> findCityById(@PathVariable("id") Long id) {
-        logger.info("get: /"+id);
-        return blogUserHandler.findBlogUserById(id);
+    @Autowired
+    public BlogUserController(BlogUserHandler blogUserHandler) {
+        this.blogUserHandler = blogUserHandler;
+    }
+
+
+    @GetMapping(value = "/{username}")
+    public Mono<BlogUser> findBlogUserById(@PathVariable("username") String username) {
+        logger.info("get: /"+username);
+        return blogUserHandler.findByUsernameAndPassword(username);
     }
 }

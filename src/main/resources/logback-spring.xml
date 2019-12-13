@@ -33,6 +33,20 @@
         </rollingPolicy>
     </appender>
 
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>{"serverAddr":"%ip","createdTime":"%d{yyyy-MM-dd HH:mm:ss}","class":"%c","createdOn":%timestamp,"appName":"ez-collector","cluster":"${cluster}","level":"%level","message":%msg,"stack_trace":"%exception{0}"} %n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <file>${logDir}/${contextName}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${contextName}/debug.%d{yyyyMMdd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
 
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -51,6 +65,7 @@
 
     <root level="Info">
         <appender-ref ref="INFO"/>
+        <appender-ref ref="DEBUG"/>
         <appender-ref ref="ERROR"/>
     </root>
 
