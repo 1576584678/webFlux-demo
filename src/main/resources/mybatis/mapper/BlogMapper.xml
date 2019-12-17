@@ -2,43 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.webfluxdemo.mapper.BlogMapper">
   <resultMap id="BaseResultMap" type="com.example.webfluxdemo.model.Blog">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="appreciation" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="commentabled" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="first_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="flag" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="published" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="recommend" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="share_statement" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="views" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="type_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-    </constructor>
+    <id column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
+    <result column="appreciation" javaType="java.lang.Boolean" jdbcType="BIT" />
+    <result column="commentabled" javaType="java.lang.Boolean" jdbcType="BIT" />
+    <result column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    <result column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <result column="first_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <result column="flag" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <result column="published" javaType="java.lang.Boolean" jdbcType="BIT" />
+    <result column="recommend" javaType="java.lang.Boolean" jdbcType="BIT" />
+    <result column="share_statement" javaType="java.lang.Boolean" jdbcType="BIT" />
+    <result column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+    <result column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    <result column="views" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <result column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <result column="type_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    <association column="user_id" property="blogUser" select="getBlogUser" />
+    <association column="type_id" property="blogType" select="getBlogType" />
+    <association column="id" property="blogTags" select="getBlogTags"/>
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.example.webfluxdemo.model.Blog">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="appreciation" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="commentabled" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="first_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="flag" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="published" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="recommend" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="share_statement" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="views" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="type_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="content" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
-    </constructor>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.webfluxdemo.model.Blog">
+      <result column="content" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
     id, appreciation, commentabled, create_time, description, first_picture, flag, published, 
@@ -81,5 +65,17 @@
     select
     <include refid="Blob_Column_List"/>
     from t_blog where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getBlogUser" resultMap="com.example.webfluxdemo.mapper.BlogUserMapper.BaseResultMap">
+    select id,avatar,create_time,email,nickname,password,type,update_time,username from t_user where id=#{userId}
+  </select>
+  <select id="getBlogType" resultMap="com.example.webfluxdemo.mapper.BlogTypeMapper.BaseResultMap">
+    select id,name from t_type where id=#{typeId}
+  </select>
+  <select id="getBlogTags" resultMap="com.example.webfluxdemo.mapper.BlogTagMapper.BaseResultMap">
+        select id,name from t_tag t
+          join t_blog_tags bt on t.id = bt.tags_id
+        where bt.blogs_id = #{id,jdbcType=INTEGER}
   </select>
 </mapper>

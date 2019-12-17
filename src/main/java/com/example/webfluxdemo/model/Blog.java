@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author liyuelin
@@ -42,6 +43,12 @@ public class Blog {
     private Long userId;
 
     private String content;
+
+    private BlogUser blogUser;
+
+    private BlogType blogType;
+
+    private List<BlogTag> blogTags;
 
     public Blog(Long id, Boolean appreciation, Boolean commentabled, Date createTime, String description, String firstPicture, String flag, Boolean published, Boolean recommend, Boolean shareStatement, String title, Date updateTime, Integer views, Long typeId, Long userId) {
         this.id = id;
